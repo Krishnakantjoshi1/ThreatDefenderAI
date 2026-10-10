@@ -1,0 +1,54 @@
+{
+  "brands": {
+    "sbi": ["sbi.co.in", "onlinesbi.sbi", "sbicard.com", "sbi.bank.in"],
+    "hdfc": ["hdfcbank.com", "hdfc.com", "hdfclife.com"],
+    "icici": ["icicibank.com", "icicilombard.com", "iciciprulife.com"],
+    "axis": ["axisbank.com"],
+    "kotak": ["kotak.com"],
+    "pnb": ["pnbindia.in"],
+    "paytm": ["paytm.com", "paytmbank.com"],
+    "phonepe": ["phonepe.com"],
+    "gpay": ["pay.google.com"],
+    "amazon": ["amazon.in", "amazon.com", "amazon.co.uk", "amazonaws.com"],
+    "flipkart": ["flipkart.com"],
+    "paypal": ["paypal.com"],
+    "netflix": ["netflix.com"],
+    "microsoft": ["microsoft.com", "live.com", "office.com", "microsoftonline.com", "outlook.com"],
+    "google": ["google.com", "google.co.in", "gmail.com", "youtube.com", "gstatic.com"],
+    "apple": ["apple.com", "icloud.com"],
+    "facebook": ["facebook.com", "fb.com"],
+    "instagram": ["instagram.com"],
+    "whatsapp": ["whatsapp.com", "whatsapp.net"],
+    "irctc": ["irctc.co.in"],
+    "uidai": ["uidai.gov.in"],
+    "aadhaar": ["uidai.gov.in"],
+    "incometax": ["incometax.gov.in", "incometaxindia.gov.in"],
+    "epfo": ["epfindia.gov.in"],
+    "jio": ["jio.com"],
+    "airtel": ["airtel.in"],
+    "dhl": ["dhl.com"],
+    "fedex": ["fedex.com"],
+    "bluedart": ["bluedart.com"],
+    "indiapost": ["indiapost.gov.in"],
+    "linkedin": ["linkedin.com"],
+    "twitter": ["twitter.com", "x.com"]
+  },
+  "trusted_domains": [
+    "wikipedia.org", "github.com", "python.org", "mozilla.org", "gov.in", "nic.in",
+    "stackoverflow.com", "yahoo.com", "bing.com", "reddit.com", "zoom.us", "dropbox.com",
+    "ollama.com", "anthropic.com", "claude.ai", "openai.com"
+  ],
+  "suspicious_tlds": [
+    "xyz", "top", "click", "link", "tk", "ml", "ga", "cf", "gq", "work", "support", "zip", "mov",
+    "icu", "buzz", "rest", "monster", "cfd", "sbs", "vip", "pw", "shop", "live", "online", "site"
+  ],
+  "shorteners": [
+    "bit.ly", "tinyurl.com", "t.co", "rb.gy", "cutt.ly", "is.gd", "goo.gl", "ow.ly",
+    "shorturl.at", "tiny.cc", "s.id", "rebrand.ly", "bl.ink"
+  ],
+  "url_keywords": [
+    "login", "signin", "verify", "verification", "secure", "update", "kyc", "otp", "account",
+    "confirm", "wallet", "reward", "claim", "bonus", "suspend", "unblock", "refund", "cashback",
+    "password", "banking", "payment", "gift", "prize", "free"
+  ]
+}

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scanner · ThreatDefender AI</title>
+  <script src="/js/theme.js?v=2"></script>
+  <link rel="stylesheet" href="/css/style.css?v=5">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header id="topbar"></header>
+  <main id="main" class="scanner-page">
+    <section class="scanner-heading">
+      <div class="page-head">
+        <span class="eyebrow">Threat analysis</span>
+        <h1>Scan before you trust</h1>
+        <p>Check suspicious messages, links, and files with ThreatDefender’s on-device analysis.</p>
+      </div>
+      <aside class="scan-privacy-note">
+        <span class="scan-privacy-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 3 19 6v5c0 4.6-2.9 8.2-7 10-4.1-1.8-7-5.4-7-10V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+        </span>
+        <span><b>Private by design</b><small>Text analysis runs locally on this device.</small></span>
+      </aside>
+    </section>
+    <section class="scan-workspace" aria-label="Scan workspace">
+    <div class="tabs scan-view-tabs" role="tablist" aria-label="Scan workflow">
+      <button role="tab" id="view-single" aria-selected="true" aria-controls="singlePane" type="button">Single scan</button>
+      <button role="tab" id="view-batch" aria-selected="false" aria-controls="batchPane" type="button">Batch scan</button>
+    </div>
+    <section id="singlePane" role="tabpanel" aria-labelledby="view-single">
+      <section class="panel scan-panel">
+        <div class="scan-panel-heading">
+          <div><span class="eyebrow">01 / Analyze</span><h2>Choose what to scan</h2>
+            <p class="muted">Paste a message or web address, or inspect a file safely as data.</p></div>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Single scan input type">
+          <button role="tab" id="tab-text" aria-selected="true" data-tab="text" type="button">Message or link</button>
+          <button role="tab" id="tab-file" aria-selected="false" data-tab="file" type="button">File</button>
+        </div>
+        <div id="paneText">
+          <label for="content">Paste a message, SMS, email text, or web address</label>
+          <textarea id="content" placeholder="Paste something suspicious here…"></textarea>
+          <div class="examples" aria-label="Examples"><span class="muted small">Try:</span></div>
+          <label for="sender" class="small">Sender (optional) - email address or phone number</label>
+          <input type="text" id="sender" placeholder="e.g. sbi.support@gmail.com" autocomplete="off">
+        </div>
+        <div id="paneFile" hidden>
+          <div class="dropzone" id="drop">
+            <p>Drop a file here or choose one. It is only inspected as data - never opened or run.</p>
+            <input type="file" id="fileInput" aria-label="Choose file to scan">
+          </div>
+        </div>
+        <div class="row scan-actions">
+          <button class="primary" id="scanBtn" type="button">Scan now</button>
+          <label for="lang" class="small" style="font-weight:400">Explain in</label>
+          <select id="lang" style="width:auto"><option value="en">English</option><option value="hinglish">Hinglish</option></select>
+          <span id="status" class="muted small" role="status"></span>
+        </div>
+        <p id="err" class="notice" role="alert" hidden></p>
+      </section>
+      <p id="reportStatus" class="report-status small muted" role="status" aria-live="polite"></p>
+      <div id="result"></div>
+    </section>
+
+    <section id="batchPane" role="tabpanel" aria-labelledby="view-batch" hidden>
+      <section class="panel batch-panel">
+        <span class="eyebrow">Bulk analysis</span>
+        <h2>Scan a list of items</h2>
+        <p class="muted">Paste one URL, message, or text item per line. Blank lines and duplicates are skipped. The list is submitted as one bounded job, not as individual requests.</p>
+        <div class="batch-controls">
+          <label for="batchType">Item type
+            <select id="batchType">
+              <option value="url">URLs</option>
+              <option value="text">Text</option>
+              <option value="message">Messages</option>
+            </select>
+          </label>
+          <label for="batchInput">Items, one per line
+            <textarea id="batchInput" rows="9" placeholder="https://example.com/login&#10;https://example.org/account" aria-describedby="batchHelp batchCount"></textarea>
+            <span id="batchHelp" class="batch-help muted">Maximum 500 items per batch. Each item is limited to 20,000 characters.</span>
+          </label>
+        </div>
+        <div class="batch-meta">
+          <p id="batchCount" class="small muted" aria-live="polite">0 non-empty lines</p>
+          <p class="small muted">Only scan data is sent to the local ThreatDefender service.</p>
+        </div>
+        <div id="batchValidation" class="batch-summary small" role="status" aria-live="polite"></div>
+        <div class="row" style="margin-top:16px">
+          <button class="primary" id="batchStart" type="button">Start batch scan</button>
+          <button id="batchCancel" type="button" hidden>Cancel job</button>
+          <button id="batchResume" type="button" hidden>Resume progress updates</button>
+        </div>
+        <p id="batchError" class="notice" role="alert" hidden></p>
+        <section id="batchProgress" class="batch-progress" aria-label="Batch scan progress" hidden>
+          <div class="batch-progress-head">
+            <b id="batchStatus">Preparing batch…</b>
+            <span id="batchProgressText" class="small muted"></span>
+          </div>
+          <progress id="batchProgressBar" max="1" value="0" aria-label="Batch scan completion"></progress>
+          <p id="batchJobMessage" class="small muted" role="status" aria-live="polite"></p>
+        </section>
+        <div id="batchResults" class="batch-results"></div>
+      </section>
+    </section>
+    </section>
+  </main>
+  <script src="/js/app.js?v=4"></script>
+  <script src="/js/scanner.js?v=3"></script>
+  <script src="/js/batch-scan.js?v=1"></script>
+  <script src="/js/report-export.js?v=6"></script>
+</body>
+</html>

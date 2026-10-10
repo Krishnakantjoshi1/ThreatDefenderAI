@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Page blocked · ThreatDefender AI</title><link rel="stylesheet" href="styles.css"></head>
+<body class="warn">
+  <main>
+    <p class="brand">ThreatDefender AI blocked this page</p>
+    <h1 id="title">Dangerous page</h1>
+    <p class="scoreline"><span id="score" class="score"></span><span class="muted">/100</span> <span id="verdict" class="badge"></span></p>
+    <p>This page was stopped before it loaded. The reasons below come from the security engine on your own computer.</p>
+    <ul id="reasons"></ul>
+    <p class="muted">Address: <code id="addr"></code></p>
+    <div class="actions">
+      <button id="close" class="primary" type="button">Close this tab</button>
+      <a id="analyze" href="#" target="_blank" rel="noopener">See full analysis</a>
+    </div>
+    <p class="proceed"><button id="proceed" class="link" type="button">I understand the risk, continue for 10 minutes</button></p>
+  </main>
+  <script src="warning.js"></script>
+</body></html>

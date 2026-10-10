@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quarantine · ThreatDefender AI</title><script src="/js/theme.js?v=2"></script><link rel="stylesheet" href="/css/style.css?v=5"></head>
+<body><a class="skip" href="#main">Skip to content</a><header id="topbar"></header><main id="main" class="quarantine-page">
+<section class="quarantine-heading">
+  <div class="page-head"><span class="eyebrow">Threat containment</span><h1>Quarantine</h1><p>Review isolated items, inspect the original scan, or choose what to do next.</p></div>
+  <aside class="quarantine-safety">
+    <span class="quarantine-safety-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 3 19 6v5c0 4.6-2.9 8.2-7 10-4.1-1.8-7-5.4-7-10V6l7-3Z"/><path d="M12 8v5m0 3h.01"/></svg>
+    </span>
+    <span><b>Items stay isolated</b><small>Quarantined files are stored inert and are never opened or run.</small></span>
+  </aside>
+</section>
+<section class="panel quarantine-panel">
+  <div class="quarantine-toolbar"><div><span class="eyebrow">Local protection</span><h2>Isolated items</h2><p class="muted">Restore only if you trust the item. Deletion is permanent.</p></div><span class="quarantine-state"><span class="quarantine-state-dot" aria-hidden="true"></span>Stored locally</span></div>
+  <p id="msg" class="notice ok" role="status" aria-live="polite" hidden></p>
+  <div class="table-wrap" id="list" aria-live="polite"><div class="empty"><span class="spinner"></span>Loading isolated items…</div></div>
+</section>
+<script src="/js/app.js?v=4"></script><script src="/js/quarantine.js?v=2"></script></main></body></html>

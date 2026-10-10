@@ -1,0 +1,23 @@
+{
+  "_comment": "Scam DNA archetypes: expected strength (0-1) of each Honeycomb dimension.",
+  "archetypes": [
+    {"name": "Bank KYC / account-block phishing",
+     "vector": {"money": 0.1, "offer": 0.1, "conversation": 0.2, "identity": 0.9, "urgency": 0.9, "credential": 0.95, "link": 0.9}},
+    {"name": "Reward / cashback bait",
+     "vector": {"money": 0.5, "offer": 0.95, "conversation": 0.2, "identity": 0.4, "urgency": 0.6, "credential": 0.5, "link": 0.8}},
+    {"name": "OTP / UPI fraud",
+     "vector": {"money": 0.7, "offer": 0.2, "conversation": 0.5, "identity": 0.5, "urgency": 0.6, "credential": 0.95, "link": 0.3}},
+    {"name": "Lottery / advance-fee scam",
+     "vector": {"money": 0.9, "offer": 0.95, "conversation": 0.5, "identity": 0.3, "urgency": 0.5, "credential": 0.2, "link": 0.4}},
+    {"name": "Fake job / investment scam",
+     "vector": {"money": 0.8, "offer": 0.8, "conversation": 0.8, "identity": 0.3, "urgency": 0.4, "credential": 0.2, "link": 0.5}},
+    {"name": "Authority impersonation / digital arrest",
+     "vector": {"money": 0.6, "offer": 0.0, "conversation": 0.9, "identity": 0.95, "urgency": 0.9, "credential": 0.3, "link": 0.1}},
+    {"name": "Family emergency impersonation",
+     "vector": {"money": 0.9, "offer": 0.0, "conversation": 0.95, "identity": 0.6, "urgency": 0.8, "credential": 0.1, "link": 0.2}},
+    {"name": "Courier / delivery-fee scam",
+     "vector": {"money": 0.7, "offer": 0.1, "conversation": 0.3, "identity": 0.7, "urgency": 0.6, "credential": 0.4, "link": 0.8}},
+    {"name": "Fake tech support / remote access",
+     "vector": {"money": 0.4, "offer": 0.1, "conversation": 0.7, "identity": 0.8, "urgency": 0.6, "credential": 0.9, "link": 0.4}}
+  ]
+}

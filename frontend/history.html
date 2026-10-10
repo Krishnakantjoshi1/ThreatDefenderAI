@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>History · ThreatDefender AI</title>
+  <script src="/js/theme.js?v=2"></script>
+  <link rel="stylesheet" href="/css/style.css?v=5">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header id="topbar"></header>
+  <main id="main" class="history-page">
+    <div class="page-head">
+      <span class="eyebrow">Your activity</span>
+      <h1>Scan history</h1>
+      <p>Review previous results. Only a masked preview and fingerprint are kept — never your full message.</p>
+    </div>
+    <section class="panel history-panel">
+      <div class="history-toolbar">
+        <div>
+          <h2>All scans</h2>
+          <p class="small muted">Select a scan to see its full analysis.</p>
+        </div>
+        <div class="row history-actions">
+          <label class="toggle filter-toggle"><input type="checkbox" id="threatsOnly"><span>Show threats only</span></label>
+          <button class="history-export report-action" id="historyReport" type="button" data-report-url="/api/reports/history.pdf" data-report-name="threatdefender-history.pdf">Download history PDF</button>
+          <button class="danger" id="clearBtn" type="button">Clear history</button>
+        </div>
+      </div>
+      <div class="table-wrap" id="list"></div>
+    </section>
+    <p id="historyStatus" class="report-status small muted" role="status" aria-live="polite"></p>
+    <p id="reportStatus" class="report-status small muted" role="status" aria-live="polite"></p>
+  </main>
+  <script src="/js/app.js?v=4"></script>
+  <script src="/js/history.js?v=3"></script>
+  <script src="/js/report-export.js?v=6"></script>
+</body>
+</html>

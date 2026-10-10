@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Settings · ThreatDefender AI</title>
+  <script src="/js/theme.js?v=2"></script>
+  <link rel="stylesheet" href="/css/style.css?v=5">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header id="topbar"></header>
+  <main id="main" class="settings-page">
+    <div class="page-head">
+      <span class="eyebrow">Preferences</span>
+      <h1>Settings</h1>
+      <p>Make protection work your way. Your choices are saved locally on this device.</p>
+    </div>
+    <p id="msg" class="notice ok" role="status" hidden></p>
+
+    <section class="panel settings-card">
+      <div class="section-heading">
+        <div><span class="eyebrow">Protection</span><h2>Choose your protection mode</h2></div>
+        <span class="section-mark" aria-hidden="true">01</span>
+      </div>
+      <p class="section-intro">Decide when ThreatDefender can use online threat intelligence.</p>
+      <fieldset class="choice-group">
+        <legend>How the mode is chosen</legend>
+        <label class="opt choice-card">
+          <input type="radio" name="pref" value="auto">
+          <span><b>Automatic</b><small>Offline when you have no connection; Hybrid when online.</small></span>
+        </label>
+        <label class="opt choice-card">
+          <input type="radio" name="pref" value="manual">
+          <span><b>Manual</b><small>Choose the protection mode yourself.</small></span>
+        </label>
+      </fieldset>
+      <fieldset id="manualSet" class="choice-group">
+        <legend>Manual protection mode</legend>
+        <label class="opt choice-card" id="o-offline">
+          <input type="radio" name="mm" value="offline">
+          <span><b>Offline</b><small>Nothing leaves this device.</small></span>
+        </label>
+        <label class="opt choice-card" id="o-hybrid">
+          <input type="radio" name="mm" value="hybrid">
+          <span><b>Hybrid</b><small>Private text stays local; only domain names may be checked online.</small></span>
+        </label>
+        <label class="opt choice-card" id="o-online">
+          <input type="radio" name="mm" value="online">
+          <span><b>Online</b><small>Also allows tools that check full links.</small></span>
+        </label>
+        <p class="small muted availability-note" id="availNote"></p>
+      </fieldset>
+      <label class="toggle setting-toggle">
+        <input type="checkbox" id="forceOffline">
+        <span><b>Simulate offline for demos</b><small>Pretend the internet is down to demonstrate offline protection without turning Wi-Fi off.</small></span>
+      </label>
+    </section>
+
+    <section class="panel settings-card">
+      <div class="section-heading">
+        <div><span class="eyebrow">Data control</span><h2>Privacy</h2></div>
+        <span class="section-mark" aria-hidden="true">02</span>
+      </div>
+      <label class="toggle setting-toggle">
+        <input type="checkbox" id="storePreview">
+        <span><b>Keep masked previews in History</b><small>Turn this off to store only scan fingerprints and results.</small></span>
+      </label>
+      <div class="privacy-note">
+        <b>Designed to keep your messages private</b>
+        <p>Message text is analysed on this device. In Hybrid or Online mode, only a domain name (or a link in Online mode) can be checked online. Every scan result lists exactly what was sent.</p>
+      </div>
+    </section>
+
+    <section class="panel settings-card">
+      <div class="section-heading">
+        <div><span class="eyebrow">On-device intelligence</span><h2>Local AI and threat list</h2></div>
+        <span class="section-mark" aria-hidden="true">03</span>
+      </div>
+      <div class="ai-status" id="aiLine" role="status">Checking local AI…</div>
+      <div class="feed-control">
+        <div><b>Offline phishing list</b><p class="small muted">Download once while online, then use the list offline.</p></div>
+        <button id="feedBtn" type="button">Download latest list</button>
+      </div>
+      <p class="small muted feed-status" id="feedLine" role="status"></p>
+    </section>
+  </main>
+  <script src="/js/app.js?v=4"></script>
+  <script src="/js/settings.js?v=3"></script>
+</body>
+</html>

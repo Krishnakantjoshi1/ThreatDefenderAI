@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard · ThreatDefender AI</title>
+  <script src="/js/theme.js?v=2"></script>
+  <link rel="stylesheet" href="/css/style.css?v=5">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header id="topbar"></header>
+  <main id="main" class="dashboard-page">
+    <section class="panel dashboard-hero">
+      <div class="grid-hero">
+        <div class="dashboard-intro">
+          <span class="eyebrow">Security overview</span>
+          <h1 id="protTitle">Checking protection…</h1>
+          <p class="muted" id="protSub">ThreatDefender checks messages, links, pages and files on this device before you act on them.</p>
+          <dl class="statlist">
+            <dt>Protection mode</dt><dd id="sMode">…</dd>
+            <dt>Network</dt><dd id="sNet">…</dd>
+            <dt>Local AI (Phi-3)</dt><dd id="sAi">…</dd>
+            <dt>Threat Memory</dt><dd id="sMem">…</dd>
+            <dt>Offline threat list</dt><dd id="sFeed">…</dd>
+          </dl>
+          <div class="row dashboard-actions">
+            <a class="btn primary" href="/scanner.html">Scan something <span aria-hidden="true">→</span></a>
+            <button id="protBtn" type="button">Turn protection off</button>
+          </div>
+          <p class="small muted mode-note" id="modeNote"></p>
+        </div>
+        <aside class="threat-visual" aria-label="Latest threat analysis">
+          <span class="eyebrow">Threat signal</span>
+          <div id="heroHex"></div>
+          <p class="small muted" id="heroCap"></p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="stats" id="stats" aria-label="Scan statistics"></section>
+
+    <section class="panel recent-panel">
+      <div class="section-heading">
+        <div><span class="eyebrow">Activity</span><h2>Recent scans</h2></div>
+        <a class="text-link" href="/history.html">View all history <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="table-wrap" id="recent"></div>
+    </section>
+  </main>
+  <script src="/js/app.js?v=4"></script>
+  <script src="/js/dashboard.js?v=4"></script>
+</body>
+</html>

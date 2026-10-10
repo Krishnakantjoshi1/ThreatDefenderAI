@@ -1,0 +1,613 @@
+THREATDEFENDER AI — UPDATED FILE STRUCTURE + TWO CLAUDE PROMPTS
+
+Use the separate files for the most convenient copy/paste workflow:
+1. Claude_Backend_Security_Prompt_Updated.txt — paste into Claude account B first so it can inspect the code and establish docs/api-contract.md.
+2. Claude_Frontend_Prompt_Updated.txt — paste into Claude account A and have it read the same repository and API contract before wiring the UI.
+3. ThreatDefenderAI_Updated_File_Structure.txt — shared target map for both accounts.
+
+IMPORTANT SOURCE NOTE
+The provided project TXT contains an intended architecture and product description. It is not an actual filesystem dump of the current repository, so the exact current files still must be discovered by inspecting the project directory. The prompts therefore require inventory and migration mapping before any change, and prohibit blind overwrites.
+
+==============================
+UPDATED TARGET FILE STRUCTURE
+==============================
+THREATDEFENDER AI — UPDATED TARGET FILE STRUCTURE
+Based on the uploaded ThreatDefender AI project notes, with explicit files for the new batch-scanning, multi-user isolation, PDF-export, API-contract, and UI work.
+
+IMPORTANT: The uploaded TXT describes an intended architecture; it does not contain a verified listing of every file in the working repository. Treat the tree below as the target map, NOT permission to overwrite or recreate existing working code. First inventory the real repository, map existing files to these roles, and reuse compatible files. Create only modules required for implemented functionality. Do not create empty placeholder modules just to match this list.
+
+D:\ThreatDefenderAI\
+├── app/                                      # Backend; preserve the existing Python framework and working scan engine
+│   ├── __init__.py
+│   ├── main.py                               # Application creation and router mounting (adapt existing entrypoint)
+│   ├── config.py                             # Environment-driven configuration; never store secrets here as literals
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── dependencies.py                   # Authenticated-session and shared request dependencies
+│   │   ├── routes_auth.py                    # Login/logout/current user/first-run or controlled account creation
+│   │   ├── routes_scan.py                    # Single scans and batch-job creation
+│   │   ├── routes_jobs.py                    # Job status, paginated results, cancellation
+│   │   ├── routes_protection.py              # Protection status/mode
+│   │   ├── routes_history.py                 # Authenticated, owner-filtered history
+│   │   ├── routes_quarantine.py              # Authenticated, owner-filtered quarantine operations
+│   │   ├── routes_settings.py                # User-scoped settings
+│   │   ├── routes_reports.py                 # Scan and history PDF downloads
+│   │   └── routes_health.py                  # Liveness/readiness and local service status
+│   ├── schemas/                              # Request/response validation schemas; use current validation library
+│   │   ├── __init__.py
+│   │   ├── auth.py
+│   │   ├── scan.py
+│   │   ├── job.py
+│   │   ├── history.py
+│   │   ├── report.py
+│   │   └── settings.py
+│   ├── auth/
+│   │   ├── __init__.py
+│   │   ├── authentication.py                 # Password/session authentication; do not trust client-supplied user IDs
+│   │   ├── sessions.py                       # Session creation, expiry, revocation, rotation
+│   │   └── passwords.py                      # Safe password hashing/verification using an established library
+│   ├── detectors/
+│   │   ├── __init__.py
+│   │   ├── url_detector.py
+│   │   ├── text_detector.py
+│   │   ├── sender_detector.py
+│   │   ├── behavior_detector.py
+│   │   ├── content_detector.py
+│   │   └── file_detector.py
+│   ├── security/
+│   │   ├── __init__.py
+│   │   ├── risk_engine.py
+│   │   ├── evidence_fusion.py
+│   │   ├── attack_chain.py
+│   │   ├── protection.py
+│   │   ├── quarantine.py
+│   │   ├── ownership.py                     # Central owner/tenant checks for records and resources
+│   │   ├── authorization.py                 # Resource-level authorization / IDOR prevention
+│   │   └── redaction.py                     # Redact credentials, secrets, and unnecessary private content from logs
+│   ├── honeycomb/
+│   │   ├── __init__.py
+│   │   ├── analyzer.py
+│   │   ├── dimensions.py
+│   │   └── patterns.py
+│   ├── intelligence/
+│   │   ├── __init__.py
+│   │   ├── threat_database.py
+│   │   ├── threat_memory.py
+│   │   ├── scam_dna.py
+│   │   └── reputation.py
+│   ├── ai/
+│   │   ├── __init__.py
+│   │   ├── ollama_client.py
+│   │   ├── agent.py
+│   │   ├── prompt_builder.py
+│   │   ├── explanation.py
+│   │   └── attack_story.py
+│   ├── modes/
+│   │   ├── __init__.py
+│   │   ├── controller.py
+│   │   ├── network_monitor.py
+│   │   ├── auto_mode.py
+│   │   ├── manual_mode.py
+│   │   └── mode_state.py
+│   ├── tools/
+│   │   ├── __init__.py
+│   │   ├── tool_registry.py
+│   │   ├── url_reputation.py
+│   │   ├── domain_lookup.py
+│   │   ├── threat_intelligence.py
+│   │   └── online_health.py
+│   ├── services/
+│   │   ├── __init__.py
+│   │   ├── scan_service.py                   # Reuse/wrap current working scan path
+│   │   ├── batch_scan_service.py             # Bounded batches, chunks, per-item outcomes
+│   │   ├── job_manager.py                    # Bounded queue, concurrency cap, progress, cancellation, cleanup
+│   │   ├── agent_service.py
+│   │   ├── protection_service.py
+│   │   ├── quarantine_service.py
+│   │   ├── history_service.py
+│   │   ├── profile_service.py                # Local user/profile lifecycle, if not already present
+│   │   └── report_service.py                  # PDF generation from authorized data only
+│   ├── database/
+│   │   ├── __init__.py
+│   │   ├── database.py
+│   │   ├── models.py                         # Users/sessions, scans/history, jobs/results, settings, quarantine metadata
+│   │   ├── repository.py                     # Persistence access with explicit owner filtering
+│   │   └── migrations/                       # Only if compatible with the existing DB/migration approach
+│   └── utils/
+│       ├── __init__.py
+│       ├── url_utils.py
+│       ├── text_utils.py
+│       ├── file_utils.py
+│       ├── hashing.py
+│       └── logger.py
+│
+├── frontend/                                 # Web dashboard; keep the current frontend framework
+│   ├── index.html
+│   ├── login.html                             # Add only if current auth UI needs it
+│   ├── dashboard.html
+│   ├── scanner.html
+│   ├── history.html
+│   ├── quarantine.html
+│   ├── attack_story.html
+│   ├── settings.html
+│   ├── css/
+│   │   ├── style.css
+│   │   ├── dashboard.css
+│   │   ├── scanner.css
+│   │   ├── components.css
+│   │   └── auth.css
+│   └── js/
+│       ├── app.js
+│       ├── api-client.js                       # One shared, safe API client; credentials/session handling
+│       ├── auth.js
+│       ├── dashboard.js
+│       ├── scanner.js
+│       ├── batch-scan.js                       # Large input, progress, partial errors, cancel/polling
+│       ├── history.js
+│       ├── quarantine.js
+│       ├── attack-story.js
+│       ├── settings.js
+│       ├── profile.js
+│       └── report-export.js                   # Request/download PDFs; no secrets in browser code
+│
+├── browser_extension/                         # Frontend workstream may update after API contract is fixed
+│   ├── manifest.json
+│   ├── background.js
+│   ├── content.js
+│   ├── popup.html
+│   ├── popup.js
+│   ├── warning.html
+│   ├── warning.js
+│   └── styles.css
+│
+├── desktop/
+│   ├── launcher.py                            # Start/verify local service and open dashboard in browser
+│   └── README.md
+│
+├── data/
+│   ├── threats/
+│   │   ├── local_threats.json
+│   │   ├── phishing_patterns.json
+│   │   └── scam_patterns.json
+│   ├── samples/
+│   │   ├── phishing/
+│   │   ├── scam/
+│   │   └── safe/
+│   └── runtime/                               # Generated at runtime; not committed; isolate private files by owner
+│       └── README.md                           # Document storage rules; actual user directories are created at runtime
+│
+├── models/
+│   └── README.md
+├── training/                                  # OPTIONAL: keep only if existing project needs these files
+│   ├── datasets/
+│   ├── train_text_model.py
+│   ├── train_url_model.py
+│   └── evaluate.py
+├── tests/
+│   ├── test_url_detector.py
+│   ├── test_text_detector.py
+│   ├── test_honeycomb.py
+│   ├── test_risk_engine.py
+│   ├── test_modes.py
+│   ├── test_quarantine.py
+│   ├── test_auth_isolation.py
+│   ├── test_batch_scans.py
+│   ├── test_job_ownership.py
+│   ├── test_pdf_reports.py
+│   └── test_api.py
+├── docs/
+│   ├── architecture.md
+│   ├── api-contract.md                         # Backend account writes; frontend account reads only
+│   ├── privacy.md
+│   ├── threat_model.md
+│   ├── frontend-ui-system.md                   # Frontend account writes
+│   ├── file-map-and-migration.md               # Existing-file mapping and decisions
+│   ├── demo_script.md
+│   └── presentation.md
+├── .env.example                                # Safe placeholders only; never put real API keys here
+├── .gitignore                                  # Must ignore .env, runtime data, local DBs, generated PDFs, secrets
+├── requirements.txt                            # Keep the existing dependency approach; add only needed libraries
+├── README.md
+└── run.py                                      # Preserve/adapt the existing run entrypoint
+
+OPTIONAL / CONDITIONAL FILES
+- If the actual UI is React/Vite/Next, keep its real package.json, source tree, and build config. Do not replace it with the vanilla HTML tree above.
+- If the working UI is plain HTML/CSS/JS, do not migrate to React just to use Magic UI. Apply the intended interaction/visual language with the existing stack.
+- Keep `training/` and model/data files only if they exist or are actually used. Do not generate fake datasets, fake models, or empty source modules.
+- Do not commit a real `.env`; only `.env.example` with harmless placeholders belongs in version control.
+- `data/runtime/` and any per-user quarantine/report temp files must be created at runtime, ignored by Git, permission-restricted where supported, and kept separate between users.
+
+REQUIRED BEHAVIOUR THIS STRUCTURE ENABLES
+1. Batch scans of 100+ URL/text/message items without frontend blocking, with configurable item cap, queue cap, default concurrency 10, chunks of 10, progress, per-item failures, and cancellation.
+2. Real server-side user/session authentication; a UUID/profile hash is only an identifier and never proof of authorization.
+3. Owner checks on every read/write for history, jobs, job results, settings, reports, logs containing user data, and quarantine metadata/files. Enforce at query/service boundaries; do not rely on UI hiding.
+4. PDFs for an individual scan and for the current authenticated user's history, generated only after authorization.
+5. Existing Chrome extension functionality and working scan/detection code are preserved; extension uses the same local backend engine.
+6. Desktop launcher starts or detects the local service safely and opens the local dashboard; service should bind to loopback unless current design explicitly requires otherwise.
+7. API keys stay server-side/environment-only. Do not ship private keys in frontend JavaScript, extension files, PDFs, logs, or Git.
+
+IMPLEMENTATION RULE
+This is a target map, not a requirement to create every listed file. Inspect the repository, reuse existing modules, document old-path -> new-role mapping, and add or rename files only where it improves the working code without breaking imports or current workflows.
+
+
+==============================
+PROMPT A: FRONTEND
+==============================
+CLAUDE ACCOUNT A — FRONTEND / UI / EXTENSION / DESKTOP LAUNCHER
+PROJECT: ThreatDefender AI — Detect. Understand. Defend. Privately.
+
+ROLE AND OWNERSHIP
+You own the web UI and its client-side interaction, the UI side of the existing Chrome extension, and the desktop launcher UX/integration only. Your allowed areas are:
+- `frontend/**`
+- `browser_extension/**` (preserve the existing working extension and only change what the requested integration/UI needs)
+- `desktop/launcher.py` and `desktop/README.md` (do not change backend internals)
+- `docs/frontend-ui-system.md`
+- Frontend-specific tests/config only if the existing stack already uses them.
+
+You are NOT the backend owner. Do not edit `app/**`, database models/migrations, backend tests, `requirements.txt`, or `docs/api-contract.md`. The backend Claude owns those. Read `docs/api-contract.md` when available. Until the backend contract is available, use the shared baseline in this prompt as the agreed interface; do not invent a second API. Do not write to files owned by the other account.
+
+CRITICAL PRESERVATION RULE
+The existing project and Chrome extension already work. This is a controlled upgrade/redesign, not permission to rebuild the detection engine or replace the whole application. First inspect the real repository, current frontend framework, routes, extension manifest, existing UI flows, static asset paths, and how the app is launched. Map existing files to the target tree. Reuse working files and preserve behaviour. Do not assume the uploaded planning TXT is the exact repository tree: it is the target architecture notes, not a verified filesystem inventory.
+
+TARGET FILE TREE
+Use this as the shared target map; create files only when needed and adapt paths to the real codebase. Do not create blank placeholders to make the tree look complete.
+
+D:\ThreatDefenderAI\
+├── frontend/
+│   ├── index.html
+│   ├── login.html
+│   ├── dashboard.html
+│   ├── scanner.html
+│   ├── history.html
+│   ├── quarantine.html
+│   ├── attack_story.html
+│   ├── settings.html
+│   ├── css/
+│   │   ├── style.css
+│   │   ├── dashboard.css
+│   │   ├── scanner.css
+│   │   ├── components.css
+│   │   └── auth.css
+│   └── js/
+│       ├── app.js
+│       ├── api-client.js
+│       ├── auth.js
+│       ├── dashboard.js
+│       ├── scanner.js
+│       ├── batch-scan.js
+│       ├── history.js
+│       ├── quarantine.js
+│       ├── attack-story.js
+│       ├── settings.js
+│       ├── profile.js
+│       └── report-export.js
+├── browser_extension/
+│   ├── manifest.json
+│   ├── background.js
+│   ├── content.js
+│   ├── popup.html
+│   ├── popup.js
+│   ├── warning.html
+│   ├── warning.js
+│   └── styles.css
+├── desktop/
+│   ├── launcher.py
+│   └── README.md
+└── docs/
+    └── frontend-ui-system.md
+
+If the existing frontend uses React/Vite/Next or another framework, keep its actual source layout and package/build config. Do NOT replace it with the HTML tree above. Magic UI (`https://magicui.design/docs/components`) is React/Tailwind-oriented; use it only if compatible with the project's current stack. If the existing UI is plain HTML/CSS/JS, reproduce suitable motion/visual patterns with the current stack instead of forcing a migration. Avoid a rewrite just to match a design library.
+
+SHARED BASELINE / API CONTRACT
+Both Claude accounts must follow this contract unless the inspected working app already has a compatible route. Backend Claude publishes the real final contract in `docs/api-contract.md`; that is the source of truth. Never edit that file.
+
+Auth/session:
+- `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me`.
+- First-run account setup or adding a user is shown only if backend actually supports it and is safely restricted.
+- Use the backend's session design. Do not store passwords, API keys, service secrets, or long-lived secrets in frontend source/localStorage. Prefer HttpOnly server-managed cookies where the backend supports them.
+
+Single scan:
+- Preserve and use the existing working single-scan endpoint if compatible. Otherwise the fallback is `POST /api/scans` with validated `{type: "url" | "text" | "message", value: "..."}`.
+
+Batch scan:
+- `POST /api/scans/batch` with `{items: [{type, value, client_ref?}], options?: {...}}`.
+- Response contains `{job_id, status, total, completed, failed, ...}`.
+- Poll `GET /api/scans/jobs/{job_id}` for progress.
+- Fetch paginated item results from `GET /api/scans/jobs/{job_id}/results?limit=...&offset=...`.
+- Request cancellation with `POST /api/scans/jobs/{job_id}/cancel`.
+- Support 100+ URLs/text/message payloads/tabs without freezing the UI. Backend default concurrency is at most 10 and processing chunks are 10; the UI must not fire 100 individual requests. Respect server item/queue caps and show useful full-queue/validation messages.
+
+History/reports:
+- `GET /api/history` with bounded pagination.
+- `GET /api/reports/scans/{scan_id}.pdf` for one scan.
+- `GET /api/reports/history.pdf` for the authenticated user's history.
+- Do not fabricate fields/statuses; check the actual `docs/api-contract.md`.
+
+DESIGN AND FUNCTIONAL REQUIREMENTS
+1. Inspect first: report the actual framework, existing routes used by the UI, current entry points, extension integration, and which files you will reuse/update/add. Then implement in your owned scope without waiting for a second generic approval; if a blocker depends on the backend contract, build against the baseline above and call out the exact unresolved detail.
+2. Build a polished, professional dark cybersecurity dashboard with clear hierarchy, restrained glow/gradient effects, accessible contrast, readable tables, clear risk colours, meaningful loading states, empty/error states, responsive desktop/tablet layouts, and reduced-motion support. Avoid overdecorated cards and fake metrics.
+3. Dashboard shows only real backend metrics and current user's data. Display protection mode/network/backend status only when real endpoints support them. Never hard-code success, risk detections, counts, or a fake “connected” state.
+4. Scanner supports existing input types; add URL/text/message batch workflow for 100+ items. Include pasted multiline input and/or file import only if safely supported, item count, duplicates/invalid-row feedback, bounded rendering/virtualization for large results if current framework supports it, start/progress/cancel, paginated results, individual item failure display, and retry where safe. Never render untrusted scan payload/URL output as raw HTML.
+5. Poll one batch job endpoint with reasonable interval/backoff; stop on terminal state and on component/page teardown. Handle expired session, timeout, network loss, full queue, HTTP errors, partial success, cancelled, and failed jobs. Avoid duplicate submissions and prevent stale results from replacing the current user's view.
+6. History: pagination/search/filter only if supported, individual scan details, and a clearly labelled PDF download for a single authorized scan and the current user's history. Handle PDF auth/errors gracefully; do not create a PDF client-side from other users' data or cache reports across sessions.
+7. Profiles/auth: show the authenticated identity safely and provide logout/session-expiry handling. Do not use a client-generated UUID/profile hash as an authentication mechanism. Do not promise switching users unless backend supports it.
+8. Quarantine and settings: preserve existing operations and show confirmation for destructive actions. Render actual backend values; do not imply the UI itself performs security enforcement.
+9. Chrome extension: preserve its current behavior and permission scope. Wire current-tab URL or user-selected batch tabs to the same local scan API after the backend API contract is known. Do not fetch/read page body or messages without needed permissions and clear purpose. Keep API/service secrets out of `manifest.json`, extension JavaScript, and source. Restrict warnings to grounded backend results. Avoid unsafe HTML injection and broad new permissions. Do not change how scanning is performed on the backend.
+10. Desktop launcher: preserve existing startup flow where possible; start or detect the local service using the real project entry point, check health before opening the dashboard, open only the loopback dashboard URL, show a clear error if startup fails, and do not launch duplicate backend processes. Do not run arbitrary shell commands from UI input.
+11. Magic UI: if and only if the current UI is already React/Tailwind-compatible, choose small relevant components from the documentation and integrate them without replacing the whole design system. Do not add an entire design system or dependency for decorative value alone.
+12. API client centralization: UI pages should use one shared client for base URL, credential/session behavior, JSON errors, timeout/abort, and response validation. Avoid repeating raw fetch logic across every page.
+13. Never put external provider API keys in front-end code. The browser should call our local backend; all configured external API keys remain on the backend.
+14. Accessibility: keyboard navigation, visible focus, labels, focus management for dialogs, ARIA status for progress, appropriate headings, and no colour-only status communication.
+
+FILES TO CREATE/UPDATE (CONDITIONAL, BASED ON ACTUAL PROJECT)
+- `frontend/js/api-client.js`: central HTTP client if no equivalent exists.
+- `frontend/js/batch-scan.js` and necessary scanner markup/styles for bounded batch UX.
+- `frontend/js/auth.js` and `frontend/login.html` only if login/session UI is needed and not already present.
+- `frontend/js/report-export.js` for authorized PDF download triggers.
+- `docs/frontend-ui-system.md`: tokens/visual rules, components, motion/accessibility, actual pages, API client usage, and list of changed files.
+- Update `browser_extension/**` only for compatible API integration/UI changes; preserve current manifest and permissions unless the feature demonstrably requires changes.
+- Update `desktop/launcher.py` only as required and compatible with the backend's documented launch/health path.
+
+DO NOT MODIFY
+- `app/**`, database models/migrations, `requirements.txt`, `.env`, or `docs/api-contract.md`.
+- Any backend security enforcement or scan detection rules.
+- Existing working extension permissions or entry points unnecessarily.
+
+ACCEPTANCE CHECKLIST
+- Existing single-scan flow still works.
+- UI starts and assets resolve using the actual run command/framework.
+- 100+ batch items do not freeze the browser; one job is submitted and progress is polled sanely.
+- Partial failures, queue-full responses, cancellation, session expiry, and network errors are visible and recoverable.
+- The UI requests and downloads both individual-scan and current-user-history PDFs from backend endpoints; it does not bypass authorization.
+- No secrets in frontend/extension/desktop source; no raw HTML injection of untrusted content; no invented metrics.
+- Existing extension still loads and performs its current supported workflows.
+- Desktop launcher checks health and opens the existing dashboard without spawning duplicate processes.
+- Run available UI/lint/build/tests and manually test the core flows. Report exact commands and outcomes; do not claim tests passed if not run.
+
+FINAL HANDOFF
+Return: (1) actual before/after file map, (2) exact paths created/updated, (3) features implemented, (4) endpoints consumed and any mismatch with `docs/api-contract.md`, (5) tests/commands and honest outcomes, (6) any manual setup remaining. Do not dump unchanged project files into the response. Keep changes within your ownership boundary.
+
+
+==============================
+PROMPT B: BACKEND + SECURITY
+==============================
+CLAUDE ACCOUNT B — BACKEND / SECURITY / DATA ISOLATION / BATCH JOBS
+PROJECT: ThreatDefender AI — Detect. Understand. Defend. Privately.
+
+ROLE AND OWNERSHIP
+You own the backend, scan services, bounded job processing, authentication/authorization, database, privacy/security, reports API, backend tests, dependencies, and API contract. Your allowed areas are:
+- `app/**`
+- `tests/**` for backend tests
+- `docs/api-contract.md`, `docs/architecture.md`, `docs/privacy.md`, `docs/threat_model.md`, `docs/file-map-and-migration.md`
+- `requirements.txt`, `.env.example`, `.gitignore`, `README.md`, `run.py` only where necessary for the backend and safe startup.
+
+You are NOT the frontend owner. Do not edit `frontend/**`, `browser_extension/**`, `desktop/launcher.py`, or `docs/frontend-ui-system.md`. The frontend Claude owns those. Keep API contract stable after publishing it; when an adjustment is unavoidable, update `docs/api-contract.md` and record the breaking/nonbreaking effect so the frontend account can follow it.
+
+CRITICAL PRESERVATION RULE
+The existing app and Chrome extension are reported to work. Upgrade the working backend rather than rebuilding it. First inspect the real repository, its Python framework, entry points, database schema, scan detectors, extension routes, local AI integration, settings, and tests. The uploaded TXT describes the intended architecture; it is not a verified list of actual files. Make an inventory and old-path -> target-role map. Reuse and wrap existing working functions. Do not overwrite or duplicate working detection code just to match the suggested tree. Do not create empty placeholder modules. Preserve current endpoints where practical and document compatibility.
+
+TARGET FILE TREE
+Use as a shared target map, not a forced rewrite. Adapt names to the actual repository and existing framework; create only the modules you need.
+
+D:\ThreatDefenderAI\
+├── app/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── config.py
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── dependencies.py
+│   │   ├── routes_auth.py
+│   │   ├── routes_scan.py
+│   │   ├── routes_jobs.py
+│   │   ├── routes_protection.py
+│   │   ├── routes_history.py
+│   │   ├── routes_quarantine.py
+│   │   ├── routes_settings.py
+│   │   ├── routes_reports.py
+│   │   └── routes_health.py
+│   ├── schemas/
+│   │   ├── __init__.py
+│   │   ├── auth.py
+│   │   ├── scan.py
+│   │   ├── job.py
+│   │   ├── history.py
+│   │   ├── report.py
+│   │   └── settings.py
+│   ├── auth/
+│   │   ├── __init__.py
+│   │   ├── authentication.py
+│   │   ├── sessions.py
+│   │   └── passwords.py
+│   ├── detectors/                             # Preserve existing working detectors
+│   │   ├── __init__.py
+│   │   ├── url_detector.py
+│   │   ├── text_detector.py
+│   │   ├── sender_detector.py
+│   │   ├── behavior_detector.py
+│   │   ├── content_detector.py
+│   │   └── file_detector.py
+│   ├── security/
+│   │   ├── __init__.py
+│   │   ├── risk_engine.py
+│   │   ├── evidence_fusion.py
+│   │   ├── attack_chain.py
+│   │   ├── protection.py
+│   │   ├── quarantine.py
+│   │   ├── ownership.py
+│   │   ├── authorization.py
+│   │   └── redaction.py
+│   ├── honeycomb/
+│   │   ├── __init__.py
+│   │   ├── analyzer.py
+│   │   ├── dimensions.py
+│   │   └── patterns.py
+│   ├── intelligence/
+│   │   ├── __init__.py
+│   │   ├── threat_database.py
+│   │   ├── threat_memory.py
+│   │   ├── scam_dna.py
+│   │   └── reputation.py
+│   ├── ai/
+│   │   ├── __init__.py
+│   │   ├── ollama_client.py
+│   │   ├── agent.py
+│   │   ├── prompt_builder.py
+│   │   ├── explanation.py
+│   │   └── attack_story.py
+│   ├── modes/
+│   │   ├── __init__.py
+│   │   ├── controller.py
+│   │   ├── network_monitor.py
+│   │   ├── auto_mode.py
+│   │   ├── manual_mode.py
+│   │   └── mode_state.py
+│   ├── tools/
+│   │   ├── __init__.py
+│   │   ├── tool_registry.py
+│   │   ├── url_reputation.py
+│   │   ├── domain_lookup.py
+│   │   ├── threat_intelligence.py
+│   │   └── online_health.py
+│   ├── services/
+│   │   ├── __init__.py
+│   │   ├── scan_service.py
+│   │   ├── batch_scan_service.py
+│   │   ├── job_manager.py
+│   │   ├── agent_service.py
+│   │   ├── protection_service.py
+│   │   ├── quarantine_service.py
+│   │   ├── history_service.py
+│   │   ├── profile_service.py
+│   │   └── report_service.py
+│   ├── database/
+│   │   ├── __init__.py
+│   │   ├── database.py
+│   │   ├── models.py
+│   │   ├── repository.py
+│   │   └── migrations/                        # Use the existing migration strategy if present
+│   └── utils/
+│       ├── __init__.py
+│       ├── url_utils.py
+│       ├── text_utils.py
+│       ├── file_utils.py
+│       ├── hashing.py
+│       └── logger.py
+├── data/
+│   ├── threats/
+│   ├── samples/                               # OPTIONAL, preserve only if actually used
+│   └── runtime/                               # Private runtime files; per-user separation; ignored by Git
+├── tests/
+│   ├── test_url_detector.py
+│   ├── test_text_detector.py
+│   ├── test_honeycomb.py
+│   ├── test_risk_engine.py
+│   ├── test_modes.py
+│   ├── test_quarantine.py
+│   ├── test_auth_isolation.py
+│   ├── test_batch_scans.py
+│   ├── test_job_ownership.py
+│   ├── test_pdf_reports.py
+│   └── test_api.py
+├── docs/
+│   ├── architecture.md
+│   ├── api-contract.md                         # YOU own/write this; frontend reads it
+│   ├── privacy.md
+│   ├── threat_model.md
+│   └── file-map-and-migration.md
+├── .env.example
+├── .gitignore
+├── requirements.txt
+├── README.md
+└── run.py
+
+SHARED BASELINE / API CONTRACT
+Follow these routes unless the existing app already has compatible routes. If it does, preserve them and document the real route/payload in `docs/api-contract.md`; frontend should not have to guess.
+
+Auth/session:
+- `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me`.
+- Restrict first-run setup safely (only while no users exist) and require authenticated/admin-controlled account creation afterward if multi-user account creation is supported. No open privileged registration.
+- Use established password hashing; don't store plaintext passwords. Use server-managed sessions/cookies where suitable, expiration/revocation/rotation, secure cookie attributes in the supported local deployment, and CSRF safeguards where applicable. For extension access, use a deliberately paired/revocable scoped token only if needed; never expose global server secrets.
+
+Single scan:
+- Keep current route if compatible. Fallback: `POST /api/scans` with validated `{type: "url" | "text" | "message", value: "..."}`. Upload files via bounded multipart handling; never accept a user-provided local filesystem path.
+
+Batch jobs:
+- `POST /api/scans/batch` accepts `{items: [{type, value, client_ref?}], options?: {...}}` and returns `{job_id, status, total, completed, failed, ...}`.
+- Support 100+ items in one batch request. Apply a configurable hard limit (for example 500 inputs/request), byte-size limits, validation, rate/queue bounds, and clear `413`/`429`/`503` behaviour. Never accept unbounded queues or create one unbounded async task per input.
+- Default max concurrent scans is 10 and processing chunk size is 10, both centrally configured. Keep work bounded with an asyncio semaphore/queue or an appropriate mechanism already in the project. Do not add Redis/Celery by default.
+- `GET /api/scans/jobs/{job_id}` gives progress only to the owner.
+- `GET /api/scans/jobs/{job_id}/results?limit=...&offset=...` provides bounded paginated per-item outputs; one input error must not crash the entire batch.
+- `POST /api/scans/jobs/{job_id}/cancel` allows only the owner to request cancellation.
+- Expose consistent status, totals, completed, succeeded, failed, pending/running where meaningful, timestamps and terminal states (e.g. `completed`, `completed_with_errors`, `failed`, `cancelled`). Document actual values.
+- Reuse database persistence if available. For an in-process queue, bound it and document restart behaviour honestly; on restart, mark orphaned in-progress jobs as interrupted/failed rather than stuck forever. Do not claim durable queue semantics unless implemented.
+
+User isolation — REQUIRED, NOT OPTIONAL:
+1. Establish a real authenticated principal on every protected request. A UUID, profile hash, cookie value supplied without validation, localStorage entry, job ID, scan ID, or frontend user_id is NOT authentication.
+2. Add a durable owner/user key to every user-owned record (scans/history, jobs, individual job results, settings, quarantine metadata, reports/exports and any user-specific threat memory). Public/global threat lists may remain global only if they contain no user's private content.
+3. Enforce ownership in repository/query/service layer on every access, not just route/UI layer. Fetch by `(resource_id, authenticated_user_id)` where possible. Never fetch arbitrary objects by ID and check later as the only control.
+4. Apply isolation to read, create, update, delete, cancel, retry, export, restore, and bulk operations. A job's child results inherit and must be checked against the same owner.
+5. Keep per-user quarantine/runtime files under separate runtime directories keyed by an internal opaque owner identifier, with safe path joins and no user-controlled path traversal. Do not rely on directory names as proof of authorization.
+6. Do not write full private message contents, session credentials, API keys, or raw secrets into shared logs. Redact sensitive values; logs, errors, temp files and generated PDFs must not bypass access control.
+7. For an unauthorized or other-user object ID, return a non-leaking response (consistent 404 is acceptable) and do not confirm that another user's record exists.
+8. Add tests with users A and B proving B cannot read/list/cancel/change/export/delete A's scans, jobs/results, history, settings, quarantine entries or reports. Test both endpoints and lower-level query/service paths.
+9. If the current project has no authentication, do not fake security by adding profile IDs. Implement a minimum credible local authentication/session design compatible with the app, or record a specific blocker/design decision before modifying persistence. Preserve existing data via a migration/backup; do not silently delete records.
+
+PDF EXPORTS:
+- Implement `GET /api/reports/scans/{scan_id}.pdf` and `GET /api/reports/history.pdf` or document compatible existing alternatives.
+- Generate PDF content exclusively from records authorized for the current user. Escape/untrusted text, avoid loading remote URLs/content while generating a report, constrain report size and temp-file storage, set correct content type/download filename, and clean temporary files safely. History PDF must include only current user's records and have a bounded/default date range or record cap to prevent memory abuse.
+- Use an existing PDF dependency if appropriate; add a dependency only when justified and document installation. Never put API keys or session data in PDFs.
+
+SECRETS, NETWORK, PRIVACY:
+- Put external provider credentials only in environment/config injection on the backend; provide `.env.example` with placeholders and ensure `.env`, DBs, runtime files and generated PDFs are ignored by Git. Do not print secrets in health routes/logs/exceptions.
+- Bind to loopback (`127.0.0.1`) for local mode unless the existing app's documented use requires otherwise. Use an exact, small CORS allowlist; never `*` with credentials. Validate Origin/Host where appropriate and avoid trusting arbitrary host headers. Protect localhost endpoints from website-triggered cross-origin misuse to the extent compatible with extension integration.
+- Keep sensitive text local by default. Use online reputation only with appropriate indicators and only when enabled/configured; preserve current Ollama/Phi-3 integration if it exists. Handle offline/unavailable services honestly; do not falsely report online checks succeeded.
+- Validate URLs and prevent backend URL fetchers from becoming SSRF tools. If current security tools fetch user-controlled URLs, reject loopback/private/link-local/metadata destinations as appropriate, handle redirects safely, and set timeouts/response limits. Do not visit links during PDF generation.
+- File scanning must not execute the file. Apply size limits, safe temporary names and cleanup.
+
+IMPLEMENTATION SEQUENCE (DO THE WORK, NOT JUST A DESIGN DOCUMENT)
+1. Inventory repository and run baseline tests or smoke test. Record actual framework, entrypoint, DB, current routes, extension-consumed endpoints, and which existing modules implement detection.
+2. Make a before/after file map and identify backwards-compatibility risks. Preserve existing route names when possible.
+3. Implement `docs/api-contract.md` early with actual request/response JSON examples, authentication, error codes, pagination, batch limits, job status/progress, cancel behavior, report URLs, health route, base URL, session/CORS expectations and extension pairing if applicable. This document is backend-owned; do not ask the frontend account to guess.
+4. Implement bounded batch jobs integrated with the existing scan service, keeping concurrency <= 10 by default and processing in chunks of 10. Include queue cap, item cap, payload limits, cancellation, progress, per-item error isolation, cleanup, restart handling and ownership.
+5. Implement/repair authentication and ownership isolation with safe migrations and tests. Do not break the existing single-scan flow.
+6. Implement the PDF report endpoints and owner enforcement.
+7. Harden configuration, logging, local binding/CORS/URL-fetch boundaries, and `.gitignore`/`.env.example` as relevant.
+8. Run tests and smoke tests for previous behavior plus new features. Fix failures caused by your changes. Do not report pass unless the command was run.
+
+TESTS TO ADD/UPDATE
+- `tests/test_auth_isolation.py`: login/session separation; no user_id spoofing; user B cannot access user A data.
+- `tests/test_batch_scans.py`: 101+ input handling, chunk boundaries, max concurrency never exceeds 10 by default, per-item failure, cancellation, terminal statuses, progress accuracy.
+- `tests/test_job_ownership.py`: cross-user job status/results/cancel denial, result inheritance, restart/orphan handling if implemented.
+- `tests/test_pdf_reports.py`: single scan PDF authorization, history PDF isolation, bounded output, hostile text escaping/temp cleanup.
+- Update `tests/test_api.py` and existing scan/detector tests to ensure original behavior remains intact.
+- Test queue full/413/429/503 responses, invalid input, no external network/Ollama configuration, and missing optional secrets gracefully.
+
+DO NOT MODIFY
+- `frontend/**`, `browser_extension/**`, `desktop/launcher.py`, or `docs/frontend-ui-system.md`.
+- Do not replace the current detection engine or introduce a separate engine for batch/extension use.
+- Do not force a new task queue/database/frontend framework without evidence it is necessary.
+
+ACCEPTANCE CHECKLIST
+- Previous single-scan API and the installed extension's current workflow remain functional.
+- One request can queue 100+ valid items under documented caps; concurrency <= 10 default; chunk size 10; memory and queue are bounded.
+- Progress and results remain consistent with per-item errors and cancellation.
+- All user-owned records and generated reports are strictly owner-scoped server-side; cross-user tests prove isolation.
+- IDs alone never authenticate; no authorization depends only on a frontend filter/profile UUID.
+- Single-scan and history PDFs are owner-only and safe to generate.
+- API keys remain server-side; no secrets leak to source control, API responses, logs or reports.
+- API contract is clear and consumable by the frontend account.
+- Existing tests/smoke tests and newly added tests run; outcomes are reported honestly.
+
+FINAL HANDOFF
+Return: (1) actual before/after file map, (2) exact paths created/updated, (3) final API contract and example JSON, (4) DB migration/backup notes, (5) security controls and tests, (6) test commands/output summary, (7) remaining limitations (especially in-process queue restart behaviour, if applicable), (8) exact launch command and local base URL. Keep changes inside backend ownership boundaries.
+
+
+==============================
+RECOMMENDED ORDER
+==============================
+1. Make a backup or create separate Git branches/working copies before Claude edits.
+2. Give the backend prompt to Claude B first. It must inventory the repository, preserve existing behavior, and define the actual final `docs/api-contract.md`.
+3. Give the frontend prompt to Claude A. It must read that contract and keep its edits limited to frontend, extension UI/API integration, and desktop launcher files.
+4. Do not let both Claude sessions edit the same files. In particular, only backend Claude edits `docs/api-contract.md`; frontend Claude reads it. Backend owns `app/**`, DB, backend tests and `requirements.txt`; frontend owns `frontend/**`, `browser_extension/**`, `desktop/launcher.py` and `docs/frontend-ui-system.md`.
+5. Merge into a clean branch and run the full application/test suite. Verify original single-scan and extension workflows before the demo.

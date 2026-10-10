@@ -1,0 +1,15 @@
+{
+  "_comment": "Seed list of KNOWN-BAD indicators used for offline lookups. Demo/seed data - extend it, or run 'Update threat feed' in Settings (needs internet once).",
+  "bad_domains": [
+    "sbi-kyc-update.xyz",
+    "hdfc-reward-claim.top",
+    "paytm-cashback-win.click",
+    "amaz0n-gift-india.shop",
+    "secure-upi-verify.link",
+    "irctc-refund-portal.xyz",
+    "income-tax-refund-gov.top",
+    "jio-recharge-bonus.vip"
+  ],
+  "bad_ips": ["185.220.101.1", "45.133.1.100"],
+  "bad_hashes": []
+}

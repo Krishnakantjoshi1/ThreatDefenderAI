@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+.env
+browser_extension.pem
+data/threatdefender.db*
+data/threat_feed.txt
+data/quarantine/*
+!data/quarantine/.gitkeep
+*.quarantined
+.pytest_cache/
